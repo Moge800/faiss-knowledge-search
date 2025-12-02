@@ -32,6 +32,7 @@ disable_error_code = ["import-untyped"]
 [dependency-groups]
 dev = [
     "mypy>=1.14.1",
+    "ruff>=0.14.7",
 ]
 
 [project.optional-dependencies]
