@@ -47,4 +47,7 @@ wheels/
 .installed.cfg
 *.egg
 
-DATA/
+# Data files (exclude production data, keep test data)
+DATA/knowledge_data.csv
+DATA/noun_base.csv
+!DATA/test_knowledge.csv
