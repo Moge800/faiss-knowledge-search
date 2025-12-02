@@ -158,7 +158,7 @@ class FaissSearch:
             if idx == -1 or score < threshold:
                 continue
             row = self.data.iloc[idx]
-            result = {"rank": i + 1, "similarity_score": float(score)}
+            result: Dict[str, Any] = {"rank": i + 1, "similarity_score": float(score)}
             for col in self.data.columns:
                 result[col] = str(row[col]) if pd.notna(row[col]) else ""
             results.append(result)
