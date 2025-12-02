@@ -1,9 +1,11 @@
-from fastapi import FastAPI, HTTPException, Query
-from contextlib import asynccontextmanager
-from typing import Dict, Any
-import pandas as pd
 import logging
 import os
+from contextlib import asynccontextmanager
+from typing import Any, Dict
+
+import pandas as pd
+from fastapi import FastAPI, HTTPException, Query
+
 from .faiss_serch import FaissSearch, normalize_katakana_width
 
 # ログ設定
@@ -48,7 +50,7 @@ async def lifespan(app: FastAPI):
 
     # FAISSインデックスを構築
     try:
-        knowledge_path = "DATA/なれっじ.csv"
+        knowledge_path = "DATA/knowledge_data.csv"
         if os.path.exists(knowledge_path):
             faiss_search = FaissSearch(knowledge_path)
             logger.info("FAISSインデックスの構築が完了しました")
@@ -77,8 +79,8 @@ async def root():
     return {
         "message": "FAISS Knowledge Search API",
         "version": "1.0.0",
-        "endpoints": ["/search_knowledge", "/health"],
-        "usage": "POST /search_knowledge with parameters: text (str), top_k (int), threshold (float), min_k (int), fallback (bool)",
+        "endpoints": ["/knowledge/search", "/health"],
+        "usage": "POST /knowledge/search with parameters: text (str), top_k (int), threshold (float), min_k (int), fallback (bool)",
         "example": {
             "text": "AIについての知識を検索",
             "top_k": 5,
@@ -124,9 +126,7 @@ async def search_knowledge(
     """
 
     if faiss_search is None:
-        raise HTTPException(
-            status_code=500, detail="FAISSインデックスが初期化されていません"
-        )
+        raise HTTPException(status_code=500, detail="FAISSインデックスが初期化されていません")
 
     if not text or not text.strip():
         raise HTTPException(status_code=400, detail="検索テキストが空です")
@@ -172,16 +172,14 @@ async def search_knowledge(
 
     except Exception as e:
         logger.error(f"検索エラー: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"検索処理でエラーが発生しました: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"検索処理でエラーが発生しました: {str(e)}")
 
 
 @app.get("/health")
 async def health_check():
     """ヘルスチェックエンドポイント"""
     return {
-        "status": "HAPPY",
+        "status": "healthy",
         "faiss_ready": faiss_search is not None,
         "noun_normalizer_loaded": len(noun_normalizer) > 0,
         "total_data_count": len(faiss_search.data) if faiss_search else 0,
