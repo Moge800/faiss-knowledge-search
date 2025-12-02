@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 
 def test_api():
@@ -32,12 +33,20 @@ def test_api():
     print("\n" + "=" * 50 + "\n")
 
     # 3. 検索テスト
-    test_queries = [("FastAPI", 3), ("機械学習", 2), ("RAG", 3), ("api", 2), ("データ処理", 3)]  # 固有名詞正規化テスト
+    test_queries = [
+        ("FastAPI", 3),
+        ("機械学習", 2),
+        ("RAG", 3),
+        ("api", 2),
+        ("データ処理", 3),
+    ]  # 固有名詞正規化テスト
 
-    for i, (query, n) in enumerate(test_queries, 1):
+    for i, (query, top_k) in enumerate(test_queries, 1):
         print(f"3.{i} 検索テスト: '{query}'")
         try:
-            response = requests.post(f"{base_url}/knowledge/search", params={"text": query, "n": n})
+            response = requests.post(
+                f"{base_url}/knowledge/search", params={"text": query, "top_k": top_k}
+            )
             print(f"ステータス: {response.status_code}")
 
             if response.status_code == 200:
