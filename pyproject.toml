@@ -29,6 +29,11 @@ Repository = "https://github.com/Moge800/faiss-knowledge-search"
 ignore_missing_imports = true
 disable_error_code = ["import-untyped"]
 
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
