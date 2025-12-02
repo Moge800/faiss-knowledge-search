@@ -15,7 +15,9 @@ def test_api():
     try:
         response = requests.get(f"{base_url}/health")
         print(f"ステータス: {response.status_code}")
-        print(f"レスポンス: {json.dumps(response.json(), ensure_ascii=False, indent=2)}")
+        print(
+            f"レスポンス: {json.dumps(response.json(), ensure_ascii=False, indent=2)}"
+        )
     except Exception as e:
         print(f"エラー: {e}")
 
@@ -26,7 +28,9 @@ def test_api():
     try:
         response = requests.get(f"{base_url}/")
         print(f"ステータス: {response.status_code}")
-        print(f"レスポンス: {json.dumps(response.json(), ensure_ascii=False, indent=2)}")
+        print(
+            f"レスポンス: {json.dumps(response.json(), ensure_ascii=False, indent=2)}"
+        )
     except Exception as e:
         print(f"エラー: {e}")
 

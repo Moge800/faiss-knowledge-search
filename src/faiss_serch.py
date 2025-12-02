@@ -131,11 +131,15 @@ class FaissSearch:
             if "e5" in self.model_name:
                 texts = [f"passage: {t}" for t in texts]
 
-            vectors = self.model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
+            vectors = self.model.encode(
+                texts, show_progress_bar=False, normalize_embeddings=True
+            )
             index = faiss.IndexFlatIP(vectors.shape[1])
             index.add(vectors.astype("float32"))
 
-            logger.info(f"FAISSインデックス作成完了: {index.ntotal}件, 次元数: {vectors.shape[1]}")
+            logger.info(
+                f"FAISSインデックス作成完了: {index.ntotal}件, 次元数: {vectors.shape[1]}"
+            )
 
             return IndexData(data=data, index=index, text_columns=text_columns)
 
@@ -143,7 +147,9 @@ class FaissSearch:
             logger.error(f"make_index失敗: {e}")
             raise e
 
-    def search(self, query_text: str, top_k: int, threshold: float = 0.5) -> List[Dict[str, Any]]:
+    def search(
+        self, query_text: str, top_k: int, threshold: float = 0.5
+    ) -> List[Dict[str, Any]]:
         query_text = normalize_katakana_width(query_text)
         if "e5" in self.model_name:
             query_text = f"query: {query_text}"

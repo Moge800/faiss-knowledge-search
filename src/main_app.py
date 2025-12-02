@@ -126,7 +126,9 @@ async def search_knowledge(
     """
 
     if faiss_search is None:
-        raise HTTPException(status_code=500, detail="FAISSインデックスが初期化されていません")
+        raise HTTPException(
+            status_code=500, detail="FAISSインデックスが初期化されていません"
+        )
 
     if not text or not text.strip():
         raise HTTPException(status_code=400, detail="検索テキストが空です")
@@ -172,7 +174,9 @@ async def search_knowledge(
 
     except Exception as e:
         logger.error(f"検索エラー: {e}")
-        raise HTTPException(status_code=500, detail=f"検索処理でエラーが発生しました: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"検索処理でエラーが発生しました: {str(e)}"
+        )
 
 
 @app.get("/health")

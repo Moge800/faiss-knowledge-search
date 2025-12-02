@@ -36,7 +36,9 @@ def test_n100():
     try:
         query = "FAISS"
         response = requests.post(
-            f"{base_url}/knowledge/search", params={"text": query, "top_k": 100}, timeout=10
+            f"{base_url}/knowledge/search",
+            params={"text": query, "top_k": 100},
+            timeout=10,
         )
         print(f"ステータス: {response.status_code}")
 
